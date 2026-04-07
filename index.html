@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bài Giảng Tương Tác - Dòng Điện Không Đổi</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #dff3ff;
+            color: #222;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.96);
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .title {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align: center;
+            background: #0b7a2f;
+            color: #ffe600;
+            border: 4px solid #075521;
+            border-radius: 10px;
+            padding: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .logo{
+            height:70px;
+            width:auto;
+            margin-right:18px;
+            background:white;
+            border-radius:6px;
+            padding:3px;
+            display: none; /* Ẩn logo nếu không có file logo đi kèm */
+        }
+        .title-text{
+            text-align:center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #0047ab;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+        .section-note {
+            background: #eef8ff;
+            border-left: 5px solid #1e88e5;
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-group label {
+            display: inline-block;
+            width: 100px;
+            font-weight: 700;
+        }
+        .form-group input {
+            width: calc(100% - 110px);
+            padding: 10px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #1976d2;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:disabled {
+            background: #9e9e9e;
+            cursor: not-allowed;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .question-box {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .question-head {
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+        .question-meta {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .options {
+            margin-top: 8px;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            cursor: pointer;
+        }
+        .option-item input[type="radio"] {
+            margin: 0;
+            flex: 0 0 auto;
+        }
+        .option-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .option-letter {
+            font-weight: 700;
+            min-width: 22px;
+        }
+        .option-body {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .option-body-text {
+            display: inline-block;
+            line-height: 1.5;
+            white-space: normal;
+        }
+        .option-image {
+            display: inline-block;
+            max-width: 140px;
+            width: auto;
+            height: auto;
+            margin: 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: #fff;
+            vertical-align: middle;
+            flex: 0 0 auto;
+        }
+        .q-img,
+        .question-stem-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 12px auto;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: #fff;
+        }
+        .action-bar {
+            text-align: right;
+            margin-top: 16px;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+        }
+        .result-table th,
+        .result-table td {
+            border: 1px solid #111;
+            padding: 10px;
+            text-align: center;
+        }
+        .result-table th {
+            background: #f0f0f0;
+        }
+        .correct-ans {
+            color: #1b8f2e;
+            font-weight: 700;
+        }
+        .wrong-ans {
+            color: #d32f2f;
+            font-weight: 700;
+        }
+        .review-box {
+            margin-bottom: 18px;
+            padding: 16px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+        }
+        .save-status {
+            margin-top: 14px;
+            font-weight: 700;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">
+    <img src="logo1.png" class="logo">
+    <div class="title-text">
+        TRƯỜNG PHỔ THÔNG NĂNG KHIẾU TDTT NGUYỄN THỊ ĐỊNH<br>
+        BÀI GIẢNG TƯƠNG TÁC<br>
+        CHUYÊN ĐỀ: DÒNG ĐIỆN KHÔNG ĐỔI
+    </div>
+</div>    
+<div class="subtitle">Giáo viên - Nguyễn Hoàng Phúc</div>
+    <div id="student-info">
+        <div class="section-note" id="structure-note"></div>
+        <div class="form-group">
+            <label for="hoTen">Họ và tên:</label>
+            <input type="text" id="hoTen" placeholder="Nhập họ và tên">
+        </div>
+        <div class="form-group">
+            <label for="lop">Lớp:</label>
+            <input type="text" id="lop" placeholder="Ví dụ: 12A1">
+        </div>
+        <button id="btn-start" disabled>Làm bài</button>
+    </div>
+    <div id="test-area" class="hidden">
+        <div id="question-wrapper"></div>
+        <div class="action-bar">
+            <button id="btn-prev" class="hidden" style="background:#6c757d;">Câu trước</button>
+            <button id="btn-next">Câu tiếp theo</button>
+            <button id="btn-submit" class="hidden" style="background:#2e7d32;">Nộp bài</button>
+        </div>
+    </div>
+    <div id="result-area" class="hidden">
+        <div id="student-result-info" style="font-size:1.05em;font-weight:700;line-height:1.7;"></div>
+        <table class="result-table">
+            <tr>
+                <th>Điểm số</th>
+                <th>Câu đúng</th>
+                <th>Câu sai</th>
+                <th>Câu chưa làm</th>
+            </tr>
+            <tr>
+                <td id="res-score" style="color: #d32f2f; font-weight: bold; font-size: 1.2em;"></td>
+                <td id="res-correct" style="color: #1b8f2e; font-weight: bold;"></td>
+                <td id="res-wrong"></td>
+                <td id="res-empty"></td>
+            </tr>
+        </table>
+        <div id="saveStatus" class="save-status"></div>
+        <div style="text-align:center; margin-top:20px;">
+            <button id="btn-review">Xem lại bài</button>
+            <button id="btn-retry" style="background:#28a745;">Làm lại</button>
+        </div>
+    </div>
+    <div id="review-area" class="hidden"></div>
+</div>
+<script>
+    const SCRIPT_URLS = {
+        "12A3": "",
+        "12A5": ""
+    };
+    function getScriptUrlByClass(lop) {
+        const key = lop.trim().toUpperCase();
+        return SCRIPT_URLS[key] || null;
+    }
+    
+    // 50 CÂU HỎI TRẮC NGHIỆM VẬT LÝ - MỖI CÂU 0.2 ĐIỂM
+    const rawQuestions = [
+        {
+            id: "q1", part: 1, type: "mcq", score: 0.2,
+            text: "Chọn câu trả lời đúng.",
+            options: [
+                { key: "A", text: "Cường độ dòng điện cho biết độ mạnh hay yếu của dòng điện." },
+                { key: "B", text: "Khi nhiệt độ tăng thì cường độ dòng điện tăng." },
+                { key: "C", text: "Cường độ dòng điện qua một đoạn mạch tỉ lệ nghịch với điện lượng dịch chuyển qua đoạn mạch." },
+                { key: "D", text: "Dòng điện là dòng các electron dịch chuyển có hướng." }
+            ], answer: "A"
+        },
+        {
+            id: "q2", part: 1, type: "mcq", score: 0.2,
+            text: "Trong dây dẫn kim loại, dòng điện là dòng dịch chuyển của các hạt",
+            options: [
+                { key: "A", text: "điện tích dương" },
+                { key: "B", text: "hạt proton" },
+                { key: "C", text: "hạt electron tự do" },
+                { key: "D", text: "hạt tích điện âm" }
+            ], answer: "C"
+        },
+        {
+            id: "q3", part: 1, type: "mcq", score: 0.2,
+            text: "Dòng điện không đổi là",
+            options: [
+                { key: "A", text: "dòng điện có chiều không thay đổi theo thời gian." },
+                { key: "B", text: "dòng điện có cường độ thay đổi theo thời gian." },
+                { key: "C", text: "dòng điện có điện lượng chuyển qua tiết diện thẳng của dây thay đổi theo thời gian." },
+                { key: "D", text: "dòng điện có chiều và cường độ không thay đổi theo thời gian." }
+            ], answer: "D"
+        },
+        {
+            id: "q4", part: 1, type: "mcq", score: 0.2,
+            text: "Điều kiện để có dòng điện là",
+            options: [
+                { key: "A", text: "có hiệu điện thế." },
+                { key: "B", text: "có điện tích tự do." },
+                { key: "C", text: "có hiệu điện thế và điện tích tự do." },
+                { key: "D", text: "có nguồn điện." }
+            ], answer: "C"
+        },
+        {
+            id: "q5", part: 1, type: "mcq", score: 0.2,
+            text: "Quy ước chiều dòng điện là chiều dịch chuyển của các ……",
+            options: [
+                { key: "A", text: "electron." },
+                { key: "B", text: "ion dương." },
+                { key: "C", text: "ion âm." },
+                { key: "D", text: "điện tích dương." }
+            ], answer: "B"
+        },
+        {
+            id: "q6", part: 1, type: "mcq", score: 0.2,
+            text: "Dòng điện không có tác dụng nào trong các tác dụng sau.",
+            options: [
+                { key: "A", text: "Tác dụng cơ." },
+                { key: "B", text: "Tác dụng nhiệt." },
+                { key: "C", text: "Tác dụng hoá học." },
+                { key: "D", text: "Tác dụng từ." }
+            ], answer: "A"
+        },
+        {
+            id: "q7", part: 1, type: "mcq", score: 0.2,
+            text: "1 Culông được hiểu là tổng điện lượng của các hạt mang điện chạy qua tiết diện thẳng của một dây dẫn",
+            options: [
+                { key: "A", text: "trong 1s bởi dòng điện có cường độ 1A." },
+                { key: "B", text: "bởi dòng điện có cường độ 1A." },
+                { key: "C", text: "bởi dòng điện có cường độ 1A trong 1s." },
+                { key: "D", text: "trong thời gian 1s." }
+            ], answer: "C"
+        },
+        {
+            id: "q8", part: 1, type: "mcq", score: 0.2,
+            text: "Cường độ dòng điện được xác định theo biểu thức nào sau đây ?",
+            options: [
+                { key: "A", text: "I = &Delta;q.&Delta;t" },
+                { key: "B", text: "I = &Delta;q/&Delta;t" },
+                { key: "C", text: "I = &Delta;t/&Delta;q" },
+                { key: "D", text: "I = &Delta;q/e" }
+            ], answer: "B"
+        },
+        {
+            id: "q9", part: 1, type: "mcq", score: 0.2,
+            text: "Đơn vị của cường độ dòng điện, hiệu điện thế, điện lượng lần lượt là",
+            options: [
+                { key: "A", text: "vôn (V), ampe (A), ampe (A)." },
+                { key: "B", text: "ampe (A), vôn (V), cu lông (C)." },
+                { key: "C", text: "niutơn (N), fara (F), vôn (V)." },
+                { key: "D", text: "fara (F), vôn/mét (V/m), jun (J)." }
+            ], answer: "B"
+        },
+        {
+            id: "q10", part: 1, type: "mcq", score: 0.2,
+            text: "Ngoài đơn vị là ampe (A), cường độ dòng điện có thể có đơn vị là",
+            options: [
+                { key: "A", text: "Jun (J)." },
+                { key: "B", text: "Giây trên culông (s/C)." },
+                { key: "C", text: "Vôn (V)." },
+                { key: "D", text: "Culông trên giây (C/s)." }
+            ], answer: "D"
+        },
+        {
+            id: "q11", part: 1, type: "mcq", score: 0.2,
+            text: "Cường độ dòng điện không được đo bằng đơn vị",
+            options: [
+                { key: "A", text: "miliAmpe (mA)." },
+                { key: "B", text: "Jun (J)." },
+                { key: "C", text: "Ampe (A)." },
+                { key: "D", text: "Culông trên giây (C/s)." }
+            ], answer: "B"
+        },
+        {
+            id: "q12", part: 1, type: "mcq", score: 0.2,
+            text: "Đơn vị đo điện trở là",
+            options: [
+                { key: "A", text: "ôm (&Omega;)." },
+                { key: "B", text: "fara (F)." },
+                { key: "C", text: "henry (H)." },
+                { key: "D", text: "oát (W)." }
+            ], answer: "A"
+        },
+        {
+            id: "q13", part: 1, type: "mcq", score: 0.2,
+            text: "Chọn biến đổi đúng trong các biến đổi sau.",
+            options: [
+                { key: "A", text: "1 &Omega; = 0,001 k&Omega; = 0,0001 M&Omega;." },
+                { key: "B", text: "10 &Omega; = 0,1 k&Omega; = 0,00001 M&Omega;." },
+                { key: "C", text: "1 k&Omega; = 1 000 &Omega; = 0,01 M&Omega;." },
+                { key: "D", text: "1 M&Omega; = 1 000 k&Omega; = 1 000 000 &Omega;." }
+            ], answer: "D"
+        },
+        {
+            id: "q14", part: 1, type: "mcq", score: 0.2,
+            text: "Hãy sắp đặt theo thứ tự đơn vị của các đại lượng sau: hiệu điện thế, cường độ dòng điện, điện trở.",
+            options: [
+                { key: "A", text: "Ampe, ôm, vôn." },
+                { key: "B", text: "Vôn, ôm, ampe." },
+                { key: "C", text: "Vôn, ampe, ôm." },
+                { key: "D", text: "Ôm, vôn, ampe." }
+            ], answer: "C"
+        },
+        {
+            id: "q15", part: 1, type: "mcq", score: 0.2,
+            text: "Cường độ dòng điện được đo bằng dụng cụ nào sau đây?",
+            options: [
+                { key: "A", text: "Vôn kế." },
+                { key: "B", text: "Oát kế." },
+                { key: "C", text: "Ampe kế." },
+                { key: "D", text: "Lực kế." }
+            ], answer: "C"
+        },
+        {
+            id: "q16", part: 1, type: "mcq", score: 0.2,
+            text: "Hiệu điện thế được đo bằng dụng cụ nào sau đây?",
+            options: [
+                { key: "A", text: "Vôn kế" },
+                { key: "B", text: "Ampe kế" },
+                { key: "C", text: "Công tơ điện" },
+                { key: "D", text: "Oát kế." }
+            ], answer: "A"
+        },
+        {
+            id: "q17", part: 1, type: "mcq", score: 0.2,
+            text: "Chỉ ra câu sai?",
+            options: [
+                { key: "A", text: "Cường độ dòng điện được đo bằng ampe kế." },
+                { key: "B", text: "Để đo cường độ dòng điện, phải mắc nối tiếp ampe kế với mạch điện." },
+                { key: "C", text: "Dòng điện chạy qua ampe kế đi vào chốt dương, đi ra chốt âm của ampe kế." },
+                { key: "D", text: "Dòng điện chạy qua ampe kế đi vào chốt âm, đi ra chốt dương của ampe kế." }
+            ], answer: "D"
+        },
+        {
+            id: "q18", part: 1, type: "mcq", score: 0.2,
+            text: "Tác dụng đặc trưng nhất của dòng điện là tác dụng….",
+            options: [
+                { key: "A", text: "nhiệt." },
+                { key: "B", text: "hóa học." },
+                { key: "C", text: "từ." },
+                { key: "D", text: "cơ học." }
+            ], answer: "C"
+        },
+        {
+            id: "q19", part: 1, type: "mcq", score: 0.2,
+            text: "Quả cầu kim loại A tích điện dương, quả cầu kim loại B tích điện âm. Nối hai quả cầu bằng một dây đồng thì sẽ có:",
+            options: [
+                { key: "A", text: "dòng electron chuyển từ B qua A." },
+                { key: "B", text: "dòng electron chuyển từ A qua B." },
+                { key: "C", text: "dòng proton chuyển từ B qua A." },
+                { key: "D", text: "dòng proton chuyển từ A qua B." }
+            ], answer: "A"
+        },
+        {
+            id: "q20", part: 1, type: "mcq", score: 0.2,
+            text: "Đại lượng n trong công thức I = S.n.v.e biểu thị:",
+            options: [
+                { key: "A", text: "Diện tích tiết diện dây dẫn." },
+                { key: "B", text: "Tốc độ dịch chuyển của electron." },
+                { key: "C", text: "Mật độ hạt mang điện." },
+                { key: "D", text: "Điện tích của electron." }
+            ], answer: "C"
+        },
+        {
+            id: "q21", part: 1, type: "mcq", score: 0.2,
+            text: "Đơn vị của tốc độ v trong công thức I = S.n.v.e là:",
+            options: [
+                { key: "A", text: "m/s" },
+                { key: "B", text: "C/s" },
+                { key: "C", text: "A/s" },
+                { key: "D", text: "m<sup>2</sup>/s" }
+            ], answer: "A"
+        },
+        {
+            id: "q22", part: 1, type: "mcq", score: 0.2,
+            text: "Điện lượng chuyển qua tiết diện dây dẫn trong một đơn vị thời gian được tính bằng:",
+            options: [
+                { key: "A", text: "&Delta;q = n.S.v.e" },
+                { key: "B", text: "&Delta;q = S.n.e" },
+                { key: "C", text: "&Delta;q = S.v.e" },
+                { key: "D", text: "&Delta;q = n.S.v" }
+            ], answer: "A"
+        },
+        {
+            id: "q23", part: 1, type: "mcq", score: 0.2,
+            text: "Biểu thức liên hệ giữa cường độ dòng điện với mật độ và tốc độ của các hạt mang điện",
+            options: [
+                { key: "A", text: "I = Snv" },
+                { key: "B", text: "I = Sve" },
+                { key: "C", text: "I = nve/S" },
+                { key: "D", text: "I = Snve" }
+            ], answer: "D"
+        },
+        {
+            id: "q24", part: 1, type: "mcq", score: 0.2,
+            text: "Khi diện tích tiết diện S của dây dẫn tăng lên gấp đôi, cường độ dòng điện sẽ:",
+            options: [
+                { key: "A", text: "Tăng gấp đôi." },
+                { key: "B", text: "Không đổi." },
+                { key: "C", text: "Giảm đi một nửa." },
+                { key: "D", text: "Tăng gấp bốn lần." }
+            ], answer: "A"
+        },
+        {
+            id: "q25", part: 1, type: "mcq", score: 0.2,
+            text: "Điện tích của electron có độ lớn là:",
+            options: [
+                { key: "A", text: "&minus;1,6 &times; 10<sup>&minus;19</sup> C" },
+                { key: "B", text: "1,6 &times; 10<sup>&minus;19</sup> C" },
+                { key: "C", text: "&minus;1,6 C" },
+                { key: "D", text: "1,6 C" }
+            ], answer: "A"
+        },
+        {
+            id: "q26", part: 1, type: "mcq", score: 0.2,
+            text: "Nếu n giảm đi một nửa và v tăng gấp đôi, thì cường độ dòng điện:",
+            options: [
+                { key: "A", text: "Không đổi." },
+                { key: "B", text: "Giảm đi một nửa." },
+                { key: "C", text: "Tăng gấp đôi." },
+                { key: "D", text: "Tăng bốn lần." }
+            ], answer: "A"
+        },
+        {
+            id: "q27", part: 1, type: "mcq", score: 0.2,
+            text: "Khi mật độ hạt mang điện n tăng trong một dây dẫn cố định, điều gì xảy ra với cường độ dòng điện?",
+            options: [
+                { key: "A", text: "Không đổi." },
+                { key: "B", text: "Tăng." },
+                { key: "C", text: "Giảm." },
+                { key: "D", text: "Bằng 0." }
+            ], answer: "B"
+        },
+        {
+            id: "q28", part: 1, type: "mcq", score: 0.2,
+            text: "Điện lượng &Delta;q trong dây dẫn phụ thuộc vào:",
+            options: [
+                { key: "A", text: "Tốc độ v, mật độ n, và diện tích S." },
+                { key: "B", text: "Chỉ mật độ n và điện tích e." },
+                { key: "C", text: "Chỉ tốc độ v và diện tích S." },
+                { key: "D", text: "Chỉ diện tích S và mật độ n." }
+            ], answer: "A"
+        },
+        {
+            id: "q29", part: 1, type: "mcq", score: 0.2,
+            text: "Lựa chọn từ thích hợp điền vào chỗ trống. …………. của dây dẫn càng nhỏ thì dây dẫn đó dẫn điện càng tốt.",
+            options: [
+                { key: "A", text: "Điện trở" },
+                { key: "B", text: "Chiều dài" },
+                { key: "C", text: "Cường độ" },
+                { key: "D", text: "Hiệu điện thế" }
+            ], answer: "A"
+        },
+        {
+            id: "q30", part: 1, type: "mcq", score: 0.2,
+            text: "Điện trở R của dây dẫn biểu thị cho:",
+            options: [
+                { key: "A", text: "Tính cản trở dòng điện nhiều hay ít của dây" },
+                { key: "B", text: "Tính cản trở hiệu điện thế nhiều hay ít của dây" },
+                { key: "C", text: "Tính cản trở electron nhiều hay ít của dây" },
+                { key: "D", text: "Tính cản trở điện lượng nhiều hay ít của dây." }
+            ], answer: "A"
+        },
+        {
+            id: "q31", part: 1, type: "mcq", score: 0.2,
+            text: "Biến trở là",
+            options: [
+                { key: "A", text: "điện trở có thể thay đổi trị số và dùng để điều chỉnh chiều dòng điện trong mạch." },
+                { key: "B", text: "điện trở có thể thay đổi trị số và dùng để điều chỉnh cường độ và chiều dòng điện trong mạch." },
+                { key: "C", text: "điện trở có thể thay đổi trị số và dùng để điều chỉnh cường độ dòng điện trong mạch." },
+                { key: "D", text: "điện trở không thay đồi trị số và dùng để điều chỉnh cường độ dòng điện trong mạch." }
+            ], answer: "C"
+        },
+        {
+            id: "q32", part: 1, type: "mcq", score: 0.2,
+            text: "Trước khi mắc biến trở vào mạch điện để điều chỉnh cường độ dòng điện thì cần điều chỉnh biến trở có giá trị nào dưới đây?",
+            options: [
+                { key: "A", text: "Có giá trị bằng 0." },
+                { key: "B", text: "Có giá trị nhỏ." },
+                { key: "C", text: "Có giá trị lớn." },
+                { key: "D", text: "Có giá trị lớn nhất." }
+            ], answer: "D"
+        },
+        {
+            id: "q33", part: 1, type: "mcq", score: 0.2,
+            text: "Khi hiệu điện thế giữa hai đầu dây dẫn tăng thì",
+            options: [
+                { key: "A", text: "cường độ dòng điện chạy qua dây dẫn không thay đổi." },
+                { key: "B", text: "cường độ dòng điện chạy qua dây dẫn giảm, tỉ lệ với hiệu điện thế." },
+                { key: "C", text: "cường độ dòng điện chạy qua dây dẫn có lúc tăng, có lúc giảm." },
+                { key: "D", text: "cường độ dòng điện chạy qua dây dẫn tăng, tỉ lệ với hiệu điện thế." }
+            ], answer: "D"
+        },
+        {
+            id: "q34", part: 1, type: "mcq", score: 0.2,
+            text: "Chọn phát biểu đúng về định luật Ohm.",
+            options: [
+                { key: "A", text: "Cường độ dòng điện chạy qua dây dẫn tỉ lệ với hiệu điện thế giữa hai đầu dây dẫn và điện trở của dây." },
+                { key: "B", text: "Cường độ dòng điện chạy qua dây dẫn tỉ lệ thuận với hiệu điện thế giữa hai đầu dây dẫn và không tỉ lệ với điện trở của dây." },
+                { key: "C", text: "Cường độ dòng điện chạy qua dây dẫn tỉ lệ thuận với hiệu điện thế giữa hai đầu dây dẫn và tỉ lệ nghịch với điện trở của dây." },
+                { key: "D", text: "Cường độ dòng điện chạy qua dây dẫn tỉ lệ nghịch với hiệu điện thế giữa hai đầu dây dẫn và tỉ lệ thuận với điện trở của dây." }
+            ], answer: "C"
+        },
+        {
+            id: "q35", part: 1, type: "mcq", score: 0.2,
+            text: "Biểu thức đúng của định luật Ohm là",
+            options: [
+                { key: "A", text: "I = R/U" },
+                { key: "B", text: "I = U/R" },
+                { key: "C", text: "U = I/R" },
+                { key: "D", text: "U = R/I" }
+            ], answer: "B"
+        },
+        {
+            id: "q36", part: 1, type: "mcq", score: 0.2,
+            text: "Đồ thị biểu diễn sự phụ thuộc của cường độ dòng điện vào hiệu điện thế giữa hai đầu dây dẫn có dạng là",
+            options: [
+                { key: "A", text: "một đường thẳng đi qua gốc toạ độ." },
+                { key: "B", text: "một đường cong không đi qua gốc toạ độ." },
+                { key: "C", text: "một đường cong đi qua gốc toạ độ." },
+                { key: "D", text: "một đường thẳng không đi qua gốc toạ độ." }
+            ], answer: "A"
+        },
+        {
+            id: "q37", part: 1, type: "mcq", score: 0.2,
+            text: "So sánh đèn sợi đốt và điện trở nhiệt thuận. Phát biểu nào sau đây là đúng?",
+            options: [
+                { key: "A", text: "Điện trở của cả hai đều tăng nhanh theo nhiệt độ." },
+                { key: "B", text: "Điện trở của cả hai đều tăng chậm theo nhiệt độ." },
+                { key: "C", text: "Điện trở đèn sợi đốt tăng nhanh hơn so với điện trở nhiệt thuận." },
+                { key: "D", text: "Điện trở đèn sợi đốt tăng chậm hơn so với điện trở nhiệt thuận." }
+            ], answer: "D"
+        },
+        {
+            id: "q38", part: 1, type: "mcq", score: 0.2,
+            text: "Điện trở của một đèn sợi đốt tăng theo nhiệt độ vì",
+            options: [
+                { key: "A", text: "mật độ electron dẫn giảm." },
+                { key: "B", text: "mật độ electron dẫn tăng." },
+                { key: "C", text: "sự tán xạ với các electron dẫn bởi ion ở nút mạng tăng." },
+                { key: "D", text: "sự tán xạ với các electron dẫn bởi ion ở nút mạng giảm." }
+            ], answer: "C"
+        },
+        {
+            id: "q39", part: 1, type: "mcq", score: 0.2,
+            text: "Kim loại dẫn điện tốt là do…",
+            options: [
+                { key: "A", text: "Khoảng cách giữa các ion nút mạng trong kim loại rất lớn." },
+                { key: "B", text: "Mật độ electron tự do trong kim loại rất lớn." },
+                { key: "C", text: "Mật độ các ion tự do lớn." },
+                { key: "D", text: "Giá trị điện tích chứa trong mỗi electron tự do của kim loại lớn hơn ở các chất khác." }
+            ], answer: "B"
+        },
+        {
+            id: "q40", part: 1, type: "mcq", score: 0.2,
+            text: "Nguyên nhân cơ bản gây ra điện trở của kim loại là do:",
+            options: [
+                { key: "A", text: "Sự va chạm của các electron tự do với các ion ở nút mạng tinh thể." },
+                { key: "B", text: "Cấu trúc mạng tinh thể của kim loại." },
+                { key: "C", text: "Nhiệt độ của kim loại thay đổi." },
+                { key: "D", text: "Chuyển động nhiệt của các electron tự do trong kim loại." }
+            ], answer: "A"
+        },
+        {
+            id: "q41", part: 1, type: "mcq", score: 0.2,
+            text: "Khi sử dụng một điện trở nhiệt NTC, điều gì xảy ra với điện trở khi nhiệt độ của nó tăng?",
+            options: [
+                { key: "A", text: "Điện trở giảm xuống." },
+                { key: "B", text: "Điện trở tăng lên." },
+                { key: "C", text: "Điện trở không thay đổi." },
+                { key: "D", text: "Điện trở giảm xuống rồi tăng trở lại." }
+            ], answer: "A"
+        },
+        {
+            id: "q42", part: 1, type: "mcq", score: 0.2,
+            text: "Điện trở suất của kim loại phụ thuộc vào yếu tố nào?",
+            options: [
+                { key: "A", text: "Nhiệt độ của kim loại." },
+                { key: "B", text: "Kích thước của vật dẫn kim loại." },
+                { key: "C", text: "Bản chất của kim loại." },
+                { key: "D", text: "Nhiệt độ và bản chất của vật dẫn kim loại." }
+            ], answer: "D"
+        },
+        {
+            id: "q43", part: 1, type: "mcq", score: 0.2,
+            text: "Khi mắc các điện trở song song với nhau thành một đoạn mạch. Điện trở tương đương của đoạn mạch sẽ",
+            options: [
+                { key: "A", text: "nhỏ hơn điện trở thành phần nhỏ nhất trong đoạn mạch" },
+                { key: "B", text: "lớn hơn điện trở thành phần lớn nhất trong đoạn mạch." },
+                { key: "C", text: "bằng trung bình cộng các điện trở trong đoạn mạch." },
+                { key: "D", text: "bằng tổng của điện trở lớn nhất và nhỏ nhất trong đoạn mạch." }
+            ], answer: "A"
+        },
+        {
+            id: "q44", part: 1, type: "mcq", score: 0.2,
+            text: "Chọn phát biểu đúng nhất trong các phát biểu dưới đây? Điện trở của dây dẫn ….",
+            options: [
+                { key: "A", text: "phụ thuộc vào chiều dài dây, tiết diện dây và không phụ thuộc vào vật liệu làm dây" },
+                { key: "B", text: "chỉ phụ thuộc vào chiều dài dây" },
+                { key: "C", text: "chỉ phụ thuộc vào vật liệu làm dây dẫn" },
+                { key: "D", text: "phụ thuộc vào chiều dài dây, tiết diện dây và vật liệu làm dây" }
+            ], answer: "D"
+        },
+        {
+            id: "q45", part: 1, type: "mcq", score: 0.2,
+            text: "Khi xảy ra hiện tượng siêu dẫn thì",
+            options: [
+                { key: "A", text: "điện trở suất của kim loại giảm." },
+                { key: "B", text: "điện trở suất của kim loại tăng." },
+                { key: "C", text: "điện trở suất không thay đổi." },
+                { key: "D", text: "điện trở suất tăng rồi lại giảm." }
+            ], answer: "A"
+        },
+        {
+            id: "q46", part: 1, type: "mcq", score: 0.2,
+            text: "Hệ số nhiệt điện trở &alpha; của kim loại phụ thuộc vào yếu tố nào sau đây?",
+            options: [
+                { key: "A", text: "Khoảng nhiệt độ và chế độ gia công của vật liệu đó." },
+                { key: "B", text: "Độ sạch của kim loại và chế độ gia công của vật liệu đó." },
+                { key: "C", text: "Độ sạch của kim loại." },
+                { key: "D", text: "Khoảng nhiệt độ, độ sạch của kim loại và chế độ gia công của vật liệu đó." }
+            ], answer: "D"
+        },
+        {
+            id: "q47", part: 1, type: "mcq", score: 0.2,
+            text: "Giả sử một dây dẫn điện bằng đồng có tiết diện nhỏ dần dọc theo dây từ đầu này sang đầu kia của dây. Trong dây có dòng điện với cường độ I chạy qua. Tốc độ dịch chuyển có hướng của electron thay đổi như thế nào dọc theo dây?",
+            options: [
+                { key: "A", text: "Giảm dần khi tiết diện dây nhỏ dần." },
+                { key: "B", text: "Tăng dần khi tiết diện dây nhỏ dần." },
+                { key: "C", text: "Không thay đổi." },
+                { key: "D", text: "Không đủ thông tin để trả lời." }
+            ], answer: "A"
+        },
+        {
+            id: "q48", part: 1, type: "mcq", score: 0.2,
+            text: "Công thức nào dưới đây không phải là công thức tính công suất của vật tiêu thụ điện toả nhiệt?",
+            options: [
+                { key: "A", text: "P = UI" },
+                { key: "B", text: "P = RI<sup>2</sup>" },
+                { key: "C", text: "P = R<sup>2</sup>I" },
+                { key: "D", text: "P = U<sup>2</sup> / R" }
+            ], answer: "C"
+        },
+        {
+            id: "q49", part: 1, type: "mcq", score: 0.2,
+            text: "Chọn câu đúng. Nhiệt lượng tỏa ra ở dây dẫn có dòng điện chạy qua tỉ lệ thuận với",
+            options: [
+                { key: "A", text: "cường độ dòng điện, điện trở dây dẫn và thời gian dòng điện chạy qua." },
+                { key: "B", text: "bình phương cường độ dòng điện, điện trở dây dẫn và thời gian dòng điện chạy qua." },
+                { key: "C", text: "bình phương hiệu điện thế hai đầu dây dẫn, thời gian dòng điện chạy qua, điện trở đoạn mạch." },
+                { key: "D", text: "hiệu điện thế hai đầu dây dẫn và thời gian dòng điện chạy qua." }
+            ], answer: "B"
+        },
+        {
+            id: "q50", part: 1, type: "mcq", score: 0.2,
+            text: "Công suất tỏa nhiệt ở vật dẫn không phụ thuộc vào yếu tố nào sau đây",
+            options: [
+                { key: "A", text: "Hiệu điện thế ở hai đầu vật dẫn." },
+                { key: "B", text: "Cường độ dòng điện qua vật dẫn." },
+                { key: "C", text: "Thời gian dòng điện đi qua vật dẫn." },
+                { key: "D", text: "Điện trở của vật dẫn." }
+            ], answer: "C"
+        }
+    ];
+    
+    let questions = JSON.parse(JSON.stringify(rawQuestions));
+    let currentQIndex = 0;
+    let answers = {};
+    let isSaving = false;
+    let daGuiDuLieu = false;
+    const elHoTen = document.getElementById("hoTen");
+    const elLop = document.getElementById("lop");
+    const btnStart = document.getElementById("btn-start");
+    const btnPrev = document.getElementById("btn-prev");
+    const btnNext = document.getElementById("btn-next");
+    const btnSubmit = document.getElementById("btn-submit");
+    const studentInfo = document.getElementById("student-info");
+    const testArea = document.getElementById("test-area");
+    const questionWrapper = document.getElementById("question-wrapper");
+    const resultArea = document.getElementById("result-area");
+    const reviewArea = document.getElementById("review-area");
+    const btnReview = document.getElementById("btn-review");
+    const btnRetry = document.getElementById("btn-retry");
+    
+    function escapeHtml(str) {
+        return String(str ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+    }
+    
+    function formatScore(num) {
+        return Number(num).toFixed(2).replace(".", ",");
+    }
+    
+    function renderStructureNote() {
+        const totalQuestions = questions.length;
+        const totalScore = questions.reduce((s, q) => s + q.score, 0);
+        document.getElementById("structure-note").innerHTML = `
+            <b>Cấu trúc đề kiểm tra:</b><br>
+            • Tổng số: ${totalQuestions} câu trắc nghiệm 4 lựa chọn.<br>
+            • Điểm mỗi câu: 0,2 điểm.<br>
+            <b>• Tổng điểm tối đa: ${formatScore(totalScore)} điểm.</b>
+        `;
+    }
+    
+    function checkStart() {
+        btnStart.disabled = !(elHoTen.value.trim() && elLop.value.trim());
+    }
+    elHoTen.addEventListener("input", checkStart);
+    elLop.addEventListener("input", checkStart);
+    
+    function renderQuestion(index) {
+        const q = questions[index];
+        let html = `
+            <div class="question-box">
+                <div class="question-meta">
+                    Câu ${index + 1}/${questions.length}
+                </div>
+                <div class="question-head">${q.text || ""}</div>
+        `;
+        if (q.type === "mcq") {
+            html += `<div class="options">`;
+            q.options.forEach(opt => {
+                const checked = answers[q.id] === opt.key ? "checked" : "";
+                html += `
+                    <label class="option-item">
+                        <input type="radio" name="${q.id}" value="${opt.key}" ${checked}>
+                        <span class="option-letter">${opt.key}.</span>
+                        <div class="option-body">
+                            <span class="option-body-text">${opt.text}</span>
+                        </div>
+                    </label>
+                `;
+            });
+            html += `</div>`;
+        }
+        html += `</div>`;
+        questionWrapper.innerHTML = html;
+        
+        if (q.type === "mcq") {
+            document.querySelectorAll(`input[name="${q.id}"]`).forEach(el => {
+                el.addEventListener("change", e => {
+                    answers[q.id] = e.target.value;
+                    updateActionButtons();
+                });
+            });
+        }
+        updateActionButtons();
+    }
+    
+    function updateActionButtons() {
+        btnPrev.classList.toggle("hidden", currentQIndex === 0);
+        if (currentQIndex < questions.length - 1) {
+            btnNext.classList.remove("hidden");
+            btnSubmit.classList.add("hidden");
+        } else {
+            btnNext.classList.add("hidden");
+            btnSubmit.classList.remove("hidden");
+        }
+    }
+    
+    btnStart.addEventListener("click", () => {
+        studentInfo.classList.add("hidden");
+        testArea.classList.remove("hidden");
+        currentQIndex = 0;
+        renderQuestion(currentQIndex);
+    });
+    
+    btnPrev.addEventListener("click", () => {
+        if (currentQIndex > 0) {
+            currentQIndex--;
+            renderQuestion(currentQIndex);
+        }
+    });
+    
+    btnNext.addEventListener("click", () => {
+        if (currentQIndex < questions.length - 1) {
+            currentQIndex++;
+            renderQuestion(currentQIndex);
+        }
+    });
+    
+    function formatClientTime(d) {
+        const pad = n => String(n).padStart(2, "0");
+        return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+    
+    window.addEventListener("beforeunload", function(e) {
+        if (isSaving) {
+            e.preventDefault();
+            e.returnValue = "Đang lưu dữ liệu, vui lòng chờ hoàn tất.";
+        }
+    });
+    
+    btnSubmit.addEventListener("click", async () => {
+        if (daGuiDuLieu) return;
+        daGuiDuLieu = true;
+        btnSubmit.disabled = true;
+        
+        let totalScore = 0;
+        let soDung = 0;
+        let soSai = 0;
+        let soChuaLam = 0;
+        
+        questions.forEach(q => {
+            if (!answers[q.id]) {
+                soChuaLam++;
+            } else if (answers[q.id] === q.answer) {
+                soDung++;
+                totalScore += q.score;
+            } else {
+                soSai++;
+            }
+        });
+        
+        totalScore = +totalScore.toFixed(2);
+        
+        testArea.classList.add("hidden");
+        resultArea.classList.remove("hidden");
+        const submitTime = formatClientTime(new Date());
+        
+        document.getElementById("student-result-info").innerHTML = `
+            Họ và tên: ${escapeHtml(elHoTen.value)}<br>
+            Lớp: ${escapeHtml(elLop.value)}<br>
+            Thời gian nộp bài: ${submitTime}
+        `;
+        document.getElementById("res-score").textContent = formatScore(totalScore);
+        document.getElementById("res-correct").textContent = soDung;
+        document.getElementById("res-wrong").textContent = soSai;
+        document.getElementById("res-empty").textContent = soChuaLam;
+        
+        const statusEl = document.getElementById("saveStatus");
+        statusEl.innerHTML = "Đang lưu vào hệ thống...";
+        statusEl.style.color = "#856404";
+        
+        const scriptUrl = getScriptUrlByClass(elLop.value);
+        if (!scriptUrl) {
+            statusEl.innerHTML = "❌ Chưa cấu hình lưu điểm cho lớp này. Kết quả của bạn chỉ được xem trên máy.";
+            statusEl.style.color = "red";
+            daGuiDuLieu = false;
+            btnSubmit.disabled = false;
+            return;
+        }
+        
+        const payload = {
+            hoTen: elHoTen.value.trim(),
+            lop: elLop.value.trim().toUpperCase(),
+            diem: totalScore,
+            soDung: soDung,
+            soSai: soSai,
+            soChuaLam: soChuaLam,
+            tongSoCau: questions.length,
+            thoiGianNop: submitTime
+        };
+        
+        try {
+            isSaving = true;
+            const res = await fetch(scriptUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            isSaving = false;
+            if (data.result === "SUCCESS") {
+                statusEl.innerHTML = "✅ Đã lưu điểm vào hệ thống.";
+                statusEl.style.color = "green";
+            } else if (data.result === "KHONG_TIM_THAY_HOC_SINH") {
+                statusEl.innerHTML = "❌ Không tìm thấy học sinh trong hệ thống.";
+                statusEl.style.color = "red";
+                daGuiDuLieu = false;
+                btnSubmit.disabled = false;
+            } else {
+                statusEl.innerHTML = "❌ Lỗi lưu: " + (data.message || "Không xác định");
+                statusEl.style.color = "red";
+                daGuiDuLieu = false;
+                btnSubmit.disabled = false;
+            }
+        } catch (err) {
+            isSaving = false;
+            statusEl.innerHTML = "❌ Lỗi kết nối khi lưu điểm.";
+            statusEl.style.color = "red";
+            daGuiDuLieu = false;
+            btnSubmit.disabled = false;
+        }
+    });
+    
+    btnReview.addEventListener("click", () => {
+        resultArea.classList.add("hidden");
+        reviewArea.classList.remove("hidden");
+        renderReview();
+    });
+    
+    btnRetry.addEventListener("click", () => location.reload());
+    
+    function renderReview() {
+        let html = `<h2>Xem lại kết quả</h2>`;
+        questions.forEach((q, idx) => {
+            html += `<div class="review-box">`;
+            html += `<div class="question-head">Câu ${idx + 1}: ${q.text}</div>`;
+            
+            q.options.forEach(opt => {
+                const isUser = answers[q.id] === opt.key;
+                const isCorrect = q.answer === opt.key;
+                let style = "";
+                if (isCorrect) style = "color:#1b8f2e;font-weight:700;";
+                else if (isUser) style = "color:#d32f2f;text-decoration:line-through;font-weight:700;";
+                html += `
+                    <div style="${style}; margin-bottom:14px; display:flex; align-items:center; gap:10px;">
+                        <span style="min-width:22px; flex:0 0 auto;">${isUser ? "☑" : "☐"}</span>
+                        <span style="font-weight:700; min-width:28px; flex:0 0 auto;">${opt.key}.</span>
+                        <span style="display:flex; align-items:center; gap:10px; flex-wrap:nowrap;">
+                            <span>${opt.text}</span>
+                        </span>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        });
+        html += `
+            <div style="text-align:center; margin-top:20px;">
+                <button onclick="location.reload()" style="background:#28a745; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Làm lại bài</button>
+            </div>
+        `;
+        reviewArea.innerHTML = html;
+    }
+    
+    renderStructureNote();
+</script>
+</body>
+</html>
